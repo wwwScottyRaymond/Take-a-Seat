@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seat Reservation System</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .venue-selector { margin: 20px; }
+        .seat-container { display: grid; gap: 5px; justify-content: center; margin-top: 20px; }
+        .seat { width: 30px; height: 30px; background-color: lightgray; border: 1px solid black; display: inline-block; }
+        .selected { background-color: green; }
+    </style>
+</head>
+<body>
+    <h1>Seat Reservation System</h1>
+    <label for="venue">Select Venue:</label>
+    <select id="venue" class="venue-selector">
+        <option value="plane">Plane</option>
+        <option value="theatre">Theatre</option>
+    </select>
+    
+    <div id="seat-map" class="seat-container"></div>
+    
+    <script>
+        const venues = {
+            plane: { rows: 6, cols: 4 },
+            theatre: { rows: 5, cols: 10 }
+        };
+
+        const seatMap = document.getElementById('seat-map');
+        const venueSelector = document.getElementById('venue');
+
+        function renderSeats(venue) {
+            seatMap.innerHTML = '';
+            const { rows, cols } = venues[venue];
+            seatMap.style.gridTemplateColumns = `repeat(${cols}, 35px)`;
+            
+            for (let i = 0; i < rows * cols; i++) {
+                const seat = document.createElement('div');
+                seat.classList.add('seat');
+                seat.addEventListener('click', () => seat.classList.toggle('selected'));
+                seatMap.appendChild(seat);
+            }
+        }
+
+        venueSelector.addEventListener('change', (e) => renderSeats(e.target.value));
+        renderSeats(venueSelector.value);
+    </script>
+</body>
+</html>
